@@ -1,76 +1,91 @@
-let generateBtn = document.querySelector("#generate");
+let specialArr = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
+let numericArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+let lowerArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+let upperArr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+let selectedArr = [];
+let requiredArr = [];
+let mergedArr = [];
+let passLength = 0;
+let userPassword = '';
 
-function writePassword() {
-  prompts();
-  let password = generatePassword();
-  let passwordText = document.querySelector("#password");
+let genPasswordButton = document.querySelector('#generate');
+let copyPasswordButton = document.querySelector('#copyButton');
 
-  passwordText.value = password;
-}
-
-let length = 0;
-let special = false;
-let numbers = false; 
-let lower = false;
-let upper = false;
-
-function prompts() {
-  checkLength();
-  special = confirm("Click OK to use Special Characters in your password.");
-  numbers = confirm("Click OK to use Numbers in your password.");
-  lower = confirm("Click OK to use Lowercase Letters in your password.");
-  upper = confirm("Click OK to use Uppercase Letters in your password.");
-}
-
-function checkLength() {
-  length = parseInt(prompt("How many characters would you like your password to contain? Must choose between 8 and 128."));
-  if ((length <8) || (length > 128)) {
-    alert("Try again. Please choose between 8 and 128.");
-    checkLength();
-  }
-}
-
-let pass = [];
-
-let symb = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "<", ">", "?", ".", ",", "/", "\\", "|", "{", "}", "`", "~" ];
-let numb = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-let sml = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-let lrg = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-
-function push() {
-  if (special) {
-    pass.push(symb);
-  }
-
-  if (numbers) {
-    pass.push(numb);
-  }
-
-  if (lower) {
-    pass.push(sml);
-  }
-
-  if (upper) {
-    pass.push(lrg);
-  }
-}
-
-function generatePassword() {
-  let passString = "";
-  for (i = 0; i < length; i++) {
-    push();
-    if (pass.length === 0) {
-      alert("**Please select at least ONE criteria for your password. Press Generate Password to start over.**")
+genPasswordButton.addEventListener('click', function() {
+    passReset();
+    passLength = prompt('How many characters would you like your password to contain? Must choose between 8 and 128.');
+    if (parseInt(passLength) < 8 || parseInt(passLength) > 128) {
+        alert('Try again. Please choose between 8 and 128.');
+    } else if (passLength === null) {
+        alert('A password will not be generated.');
+    } else if (isNaN(passLength) === true || passLength === '') {
+        alert('Please use numerical numbers and try again.');
+    } else {
+        selectedCharacters();
     }
-    let randomChoices = pass[Math.floor(Math.random() * pass.length)];
-    let selection = randomChoices[Math.floor(Math.random() * randomChoices.length)];
+    document.getElementById('password').textContent = userPassword;
+});
 
-    passString += selection;
-  } 
-  return passString;
+function selectedCharacters() {
+    let specialYes = confirm('Click OK to use Special Characters in your password.');
+    if (specialYes === true) {
+        selectedOption(specialArr);
+    }
+    let numericYes = confirm('Click OK to use Numbers in your password.');
+    if (numericYes === true) {
+        selectedOption(numericArr);
+    }
+    let lowerYes = confirm('Click OK to use Lowercase Letters in your password.');
+    if (lowerYes === true) {
+        selectedOption(lowerArr);
+    }
+    let upperYes = confirm('Click OK to use Uppercase Letters in your password.');
+    if (upperYes === true) {
+        selectedOption(upperArr);
+    }
+    if (upperYes === false && lowerYes === false && numericYes === false && specialYes === false) {
+        alert('**Please select at least ONE criteria for your password. Press Generate Password to start over.**');
+    }
+    let mergedArr = [].concat.apply([], selectedArr);
+    requiredChars(mergedArr);
 }
 
+function passReset() {
+    mergedArr.length = 0;
+    selectedArr.length = 0;
+    requiredArr.length = 0;
+}
 
+function selectedOption(chosen) {
+    let required = Math.floor(Math.random() * chosen.length);
+    requiredArr.push(chosen[required]);
+    selectedArr.push(chosen);
+}
 
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+function requiredChars(merged) {
+    let newLength = passLength - requiredArr.length;
+    for (let i = 0; i < newLength; i++) {
+        let randomChar = Math.floor(Math.random() * merged.length);
+        requiredArr.push(merged[randomChar]);
+    }
+    shuffle(requiredArr);
+    userPassword = requiredArr.join('');
+}
+
+copyPasswordButton.addEventListener('click', function() {
+    let emptyEl = document.getElementById('password').textContent;
+    if (emptyEl === '') {
+        alert('You have not yet generated a password.');
+    } else {
+        document.getElementById('password').select();
+        document.execCommand('copy');
+        alert('Your password: ' + userPassword + ' has been copied to the clipboard.');
+    }
+});
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}

@@ -15,6 +15,7 @@ body,
 body {
   font-family: sans-serif;
   background-color: #c395f8;
+  margin-bottom: 30px;
 }
 
 .wrapper {
@@ -40,6 +41,12 @@ h2, h3 {
   color: rgb(83, 11, 124);
 }
 
+.sticky-footer {
+  bottom: 0px;
+  position: absolute;
+  width: 100%;
+}
+
 .card {
   background-color: hsl(0, 0%, 100%);
   border-radius: 5px;
@@ -50,6 +57,10 @@ h2, h3 {
   margin: 0 auto;
   max-width: 800px;
   padding: 30px 40px;
+}
+
+.card-header {
+  background-color: hsl(0, 0%, 100%);
 }
 
 .card-header::after {
@@ -65,6 +76,7 @@ h2, h3 {
 }
 
 .card-footer {
+  background-color: hsl(0, 0%, 100%);
   text-align: center;
 }
 
