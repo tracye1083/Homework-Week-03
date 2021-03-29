@@ -13,13 +13,13 @@ let copyPasswordButton = document.querySelector('#copyButton');
 
 genPasswordButton.addEventListener('click', function() {
     passReset();
-    passLength = prompt('How many characters would you like your password to contain? Must choose between 8 and 128.');
+    passLength = prompt('How many characters would you like your password to contain?\nMust choose between 8 and 128.');
     if (parseInt(passLength) < 8 || parseInt(passLength) > 128) {
         alert('Try again. Please choose between 8 and 128.');
     } else if (passLength === null) {
         alert('A password will not be generated.');
     } else if (isNaN(passLength) === true || passLength === '') {
-        alert('Please use numerical numbers and try again.');
+        alert('Please type a number between 8 and 128 and try again.');
     } else {
         selectedCharacters();
     }
@@ -27,24 +27,24 @@ genPasswordButton.addEventListener('click', function() {
 });
 
 function selectedCharacters() {
-    let specialYes = confirm('Click OK to use Special Characters in your password.');
+    let specialYes = confirm('Click OK to use Special Characters in your password.\nClick Cancel to exclude.');
     if (specialYes === true) {
         selectedOption(specialArr);
     }
-    let numericYes = confirm('Click OK to use Numbers in your password.');
+    let numericYes = confirm('Click OK to use Numbers in your password.\nClick Cancel to exclude.');
     if (numericYes === true) {
         selectedOption(numericArr);
     }
-    let lowerYes = confirm('Click OK to use Lowercase Letters in your password.');
+    let lowerYes = confirm('Click OK to use Lowercase Letters in your password.\nClick Cancel to exclude.');
     if (lowerYes === true) {
         selectedOption(lowerArr);
     }
-    let upperYes = confirm('Click OK to use Uppercase Letters in your password.');
+    let upperYes = confirm('Click OK to use Uppercase Letters in your password.\nClick Cancel to exclude.');
     if (upperYes === true) {
         selectedOption(upperArr);
     }
     if (upperYes === false && lowerYes === false && numericYes === false && specialYes === false) {
-        alert('**Please select at least ONE criteria for your password. Press Generate Password to start over.**');
+        alert('**Please select at least ONE criteria for your password.\nPress Generate Password to start over.**');
     }
     let mergedArr = [].concat.apply([], selectedArr);
     requiredChars(mergedArr);
