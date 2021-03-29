@@ -13,7 +13,7 @@ body,
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Raleway', sans-serif;
   background-color: #c395f8;
   margin-bottom: 30px;
 }
@@ -42,9 +42,12 @@ h2, h3 {
 }
 
 .sticky-footer {
+  text-align: center;
+  color: #595a5a;
   bottom: 0px;
-  position: absolute;
+  position: fixed;
   width: 100%;
+  padding-bottom: 10px;
 }
 
 .card {
@@ -95,6 +98,7 @@ h2, h3 {
 }
 
 .btn {
+  font-family: 'Raleway', sans-serif;
   border: none;
   background-color: rgb(83, 11, 124);
   border-radius: 25px;
