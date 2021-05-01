@@ -15,7 +15,7 @@ The user will be prompted to choose from the following password criteria:
 
 The application will then provide the user with a randomly generated password consisting of the selected character types above and display the new password on the screen.
 ***
-[Password Generator](https://tracye1083.github.io/Homework-Week-03/)
+[Password Generator](https://tracye1083.github.io/Password-Generator/)
 ***
 **SCREENSHOT**
 ![Preview of Page](Assets/site.png)
